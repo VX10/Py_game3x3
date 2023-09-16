@@ -10,6 +10,7 @@ class FieldCell(QWidget):
     coordinate_x = None
     coordinate_y = None
     cell_type = None
+    painter = QPainter()
 
     # def __init__(self, cell_type=0):
     #     self.cell_type = cell_type
@@ -17,7 +18,8 @@ class FieldCell(QWidget):
     def DrawRect(self):
         pass
 
-        qp = QPainter(self)
+        # qp = QPainter(self)
+        qp = self.painter
         qp.setPen(QPen(Qt.black, 2))
         brush = QBrush(Qt.red)
         qp.setBrush(brush)
