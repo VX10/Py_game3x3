@@ -1,4 +1,5 @@
 import sys
+from field_cell import FieldCell
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
@@ -28,17 +29,22 @@ class Model(QObject):
 
 
 class View(QWidget):
-    def __init__(self, model):
+    hWindow = None
+
+    def __init__(self, model, hWindow):
         super().__init__()
         self.model = model
+        self.hWindow = hWindow
 
     def paintEvent(self, event):
-        painter = QPainter(self)
-
-        size = 100
-        painter.setPen(Qt.black)
-        painter.setBrush(QColor(255, 0, 0))
-        painter.drawRect(self.model.square_x, self.model.square_y, size, size)
+        # painter = QPainter(self)
+        #
+        # size = 100
+        # painter.setPen(Qt.black)
+        # painter.setBrush(QColor(255, 0, 0))
+        # painter.drawRect(self.model.square_x, self.model.square_y, size, size)
+        field_cell = FieldCell(self.hWindow)
+        field_cell.DrawRect()
 
 
 class Controller(QObject):
@@ -66,6 +72,7 @@ class MainWindow(QMainWindow):
 
         model = Model()
         view = View(model)
+        view.hWindow = self
         controller = Controller(model)
 
         model.coordinatesChanged.connect(view.update)
