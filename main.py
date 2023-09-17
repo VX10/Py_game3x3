@@ -47,6 +47,7 @@ class View(QWidget):
 
         self.btn_track_clear = QPushButton("Стереть траектории", self)
         self.btn_track_clear.move(100, 350)
+        self.btn_track_clear.clicked.connect(self.clear_track)
 
         self.btn_trap_shuffle = QPushButton("Перетасовать ловушки", self)
         self.btn_trap_shuffle.move(100, 400)
@@ -106,6 +107,10 @@ class View(QWidget):
             item.step()
         self.update()
 
+    def clear_track(self):
+        for item in self.creatures_list:
+            item.path_list = []
+        self.update()
 
 class Controller(QObject):
     def __init__(self, model):
@@ -129,6 +134,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Задание")
         self.setGeometry(100, 100, 320, 700)
+        self.setFixedSize(320, 700)
 
         model = Model()
         view = View(model)

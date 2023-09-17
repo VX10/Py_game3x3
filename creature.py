@@ -44,7 +44,7 @@ class Creature:
             if (self.coordinate_x == 0
                     or self.coordinate_x == 4
                     or self.coordinate_y == 0
-                    or self.coordinate_x == 4):
+                    or self.coordinate_y == 4):
                 self.out_range = True
             self.path_list.append([self.coordinate_x, self.coordinate_y])
             pass
