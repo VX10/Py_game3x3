@@ -29,20 +29,26 @@ class Model(QObject):
 
 
 class View(QWidget):
-    painter = None
     field_cells = []
+    cell_coordinates = [[10, 10], [110, 10], [210, 10],
+                        [10, 110], [110, 110], [210, 110],
+                        [10, 210], [110, 210], [210, 210]]
 
     def __init__(self, model):
         super().__init__()
         self.model = model
-        self.field_cells.append(FieldCell(0))
+        for index in range(3):
+            self.field_cells.append(FieldCell(0))
+            self.field_cells.append(FieldCell(1))
+            self.field_cells.append(FieldCell(2))
+        for index in range(9):
+            self.field_cells[index].cell_coordinates = self.cell_coordinates[index]
+
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        self.field_cells[0].painter = painter
-        self.field_cells[0].draw_rect()
-        # field_cell = FieldCell(painter)
-        # field_cell.draw_rect()
+        for count in range(9):
+            self.field_cells[count].draw_rect(painter)
         pass
 
 
@@ -67,7 +73,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Перемещение квадрата")
-        self.setGeometry(100, 100, 300, 300)
+        self.setGeometry(100, 100, 800, 600)
 
         model = Model()
         view = View(model)

@@ -7,22 +7,25 @@ class FieldCell():
     '''
     Класс ячейки игового поля
     '''
-    coordinate_x = None
-    coordinate_y = None
+    # cell_coordinates = [x, y]
+    cell_coordinates = []
     # cell_type
     # 0 - empty cell           / пустая ячейка
     # 1 - rope with a bell     / веревочка с колокольчиком
     # 2 - protoplasm detector  / детектор протоплазмы
     cell_type = None
-    painter = None
 
     def __init__(self, cell_type):
         self.cell_type = cell_type
 
-    def draw_rect(self):
+    def draw_rect(self, painter):
         pass
 
         size = 100
-        self.painter.setPen(Qt.black)
-        self.painter.setBrush(QColor(255, 0, 0))
-        self.painter.drawRect(10, 10, size, size)
+        # Настраиваем параметры пера
+        pen = painter.pen()
+        pen.setWidth(3)  # Устанавливаем толщину линии в 3px
+        painter.setPen(pen)
+
+        painter.setBrush(QColor(255, 0, 0))
+        painter.drawRect(self.cell_coordinates[0], self.cell_coordinates[1], size, size)
