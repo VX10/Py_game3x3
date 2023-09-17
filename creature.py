@@ -60,29 +60,29 @@ class Creature:
 
 
         if self.coordinate_x == 1 and self.coordinate_y == 1:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(60-20, 60-20, 40, 40)
 
         if self.coordinate_x == 1 and self.coordinate_y == 2:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(60-20, 160-20, 40, 40)
 
         if self.coordinate_x == 1 and self.coordinate_y == 3:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(60-20, 260-20, 40, 40)
 
         if self.coordinate_x == 2 and self.coordinate_y == 1:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(160-20, 60-20, 40, 40)
 
         if self.coordinate_x == 2 and self.coordinate_y == 2:
             painter.drawEllipse(160-20, 160-20, 40, 40)
 
         if self.coordinate_x == 2 and self.coordinate_y == 3:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(160-20, 260-20, 40, 40)
 
         if self.coordinate_x == 3 and self.coordinate_y == 1:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(260-20, 60-20, 40, 40)
 
         if self.coordinate_x == 3 and self.coordinate_y == 2:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(260-20, 160-20, 40, 40)
 
         if self.coordinate_x == 3 and self.coordinate_y == 3:
-            painter.drawEllipse(160-20, 160-20, 40, 40)
+            painter.drawEllipse(260-20, 260-20, 40, 40)
 

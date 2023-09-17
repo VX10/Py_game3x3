@@ -66,7 +66,7 @@ class View(QWidget):
 
         self.btn_tic = QPushButton("Шаг", self)
         self.btn_tic.move(100, 650)
-        self.btn_tic.clicked.connect(self.fn_tic)
+        self.btn_tic.clicked.connect(self.step)
 
 
     def shuffle_trap(self):
@@ -99,8 +99,10 @@ class View(QWidget):
             item.draw_creature(painter)
         pass
 
-    def fn_tic(self):
-        pass
+    def step(self):
+        for item in self.creatures_list:
+            item.step()
+        self.update()
 
 
 class Controller(QObject):
