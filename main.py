@@ -29,18 +29,20 @@ class Model(QObject):
 
 
 class View(QWidget):
+    painter = None
     field_cells = []
 
     def __init__(self, model):
         super().__init__()
         self.model = model
-        self.field_cells.append()
+        self.field_cells.append(FieldCell(0))
 
     def paintEvent(self, event):
         painter = QPainter(self)
-
-        field_cell = FieldCell(painter)
-        field_cell.draw_rect()
+        self.field_cells[0].painter = painter
+        self.field_cells[0].draw_rect()
+        # field_cell = FieldCell(painter)
+        # field_cell.draw_rect()
         pass
 
 

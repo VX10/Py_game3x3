@@ -9,11 +9,15 @@ class FieldCell():
     '''
     coordinate_x = None
     coordinate_y = None
+    # cell_type
+    # 0 - empty cell           / пустая ячейка
+    # 1 - rope with a bell     / веревочка с колокольчиком
+    # 2 - protoplasm detector  / детектор протоплазмы
     cell_type = None
     painter = None
 
-    def __init__(self, painter: QPainter()):
-        self.painter = painter
+    def __init__(self, cell_type):
+        self.cell_type = cell_type
 
     def draw_rect(self):
         pass
