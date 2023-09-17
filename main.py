@@ -96,6 +96,8 @@ class View(QWidget):
         for count in range(9):
             self.field_cells[count].draw_rect(painter)
         for item in self.creatures_list:
+            item.draw_track(painter)
+        for item in self.creatures_list:
             item.draw_creature(painter)
         pass
 
