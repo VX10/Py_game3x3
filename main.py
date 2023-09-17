@@ -29,29 +29,19 @@ class Model(QObject):
 
 
 class View(QWidget):
-    hWindow = None
+    field_cells = []
 
     def __init__(self, model):
         super().__init__()
         self.model = model
+        self.field_cells.append()
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        #
-        # size = 100
-        # painter.setPen(Qt.black)
-        # painter.setBrush(QColor(255, 0, 0))
-        # painter.drawRect(self.model.square_x, self.model.square_y, size, size)
-        field_cell = FieldCell()
-        field_cell.painter = painter
-        field_cell.DrawRect()
-        pass
 
-        # qp = QPainter(self)
-        # qp.setPen(QPen(Qt.black, 2))
-        # brush = QBrush(Qt.red)
-        # qp.setBrush(brush)
-        # qp.drawRect(10, 10, 100, 100)
+        field_cell = FieldCell(painter)
+        field_cell.draw_rect()
+        pass
 
 
 class Controller(QObject):
@@ -79,7 +69,6 @@ class MainWindow(QMainWindow):
 
         model = Model()
         view = View(model)
-        view.hWindow = self
         controller = Controller(model)
 
         model.coordinatesChanged.connect(view.update)

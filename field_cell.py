@@ -3,24 +3,22 @@ from PyQt5.QtGui import QPainter, QPen, QBrush, QColor
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
 
 
-class FieldCell(QWidget):
+class FieldCell():
     '''
     Класс ячейки игового поля
     '''
     coordinate_x = None
     coordinate_y = None
     cell_type = None
-    painter = QPainter()
+    painter = None
 
-    # def __init__(self, cell_type=0):
-    #     self.cell_type = cell_type
+    def __init__(self, painter: QPainter()):
+        self.painter = painter
 
-    def DrawRect(self):
+    def draw_rect(self):
         pass
 
-        # qp = QPainter(self)
-        qp = self.painter
-        qp.setPen(QPen(Qt.black, 2))
-        brush = QBrush(Qt.red)
-        qp.setBrush(brush)
-        qp.drawRect(10, 10, 100, 100)
+        size = 100
+        self.painter.setPen(Qt.black)
+        self.painter.setBrush(QColor(255, 0, 0))
+        self.painter.drawRect(10, 10, size, size)
