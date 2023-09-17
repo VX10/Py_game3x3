@@ -1,5 +1,8 @@
 import random
 
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QColor
+
 
 class Creature:
     '''
@@ -45,5 +48,41 @@ class Creature:
                 self.out_range = True
             self.path_list.append([self.coordinate_x, self.coordinate_y])
 
+    def draw_creature(self, painter):
+        painter.setPen(Qt.NoPen)
+        # цвет существа
+        if self.type_creature == 0:
+            painter.setBrush(QColor(0, 255, 0))
+        if self.type_creature == 1:
+            painter.setBrush(QColor(0, 0, 255))
+        if self.type_creature == 2:
+            painter.setBrush(QColor(255,0,0))
 
+
+        if self.coordinate_x == 1 and self.coordinate_y == 1:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 1 and self.coordinate_y == 2:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 1 and self.coordinate_y == 3:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 2 and self.coordinate_y == 1:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 2 and self.coordinate_y == 2:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 2 and self.coordinate_y == 3:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 3 and self.coordinate_y == 1:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 3 and self.coordinate_y == 2:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
+
+        if self.coordinate_x == 3 and self.coordinate_y == 3:
+            painter.drawEllipse(160-20, 160-20, 40, 40)
 

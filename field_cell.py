@@ -56,3 +56,6 @@ class FieldCell():
             painter.setPen(QPen(Qt.black, 5))
             # painter.setBrush(QColor(255, 0, 0))
             painter.drawPolygon(points)
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(QColor(0, 255, 0))
+        # painter.drawEllipse(50, 50, 200, 200)
