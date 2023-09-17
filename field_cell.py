@@ -8,7 +8,7 @@ class FieldCell():
     Класс ячейки игового поля
     '''
     # cell_coordinates = [x, y]
-    cell_coordinates = []
+    cell_coordinates = None
     # cell_type
     # 0 - empty cell           / пустая ячейка
     # 1 - rope with a bell     / веревочка с колокольчиком
@@ -17,6 +17,7 @@ class FieldCell():
     fill_color = None
 
     def __init__(self, cell_type):
+        self.cell_coordinates = []
         self.cell_type = cell_type
         self.fill_color = QColor(255, 255, 255)
 

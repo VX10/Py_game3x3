@@ -1,6 +1,7 @@
+import random
 import sys
 from field_cell import FieldCell
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout
 from PyQt5.QtGui import QPainter, QPen, QBrush, QColor
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
 
@@ -15,7 +16,6 @@ class Model(QObject):
 
     def updateCoordinates(self, direction):
         step = 10
-
         if direction == 'left':
             self.square_x -= step
         elif direction == 'right':
@@ -24,7 +24,6 @@ class Model(QObject):
             self.square_y -= step
         elif direction == 'down':
             self.square_y += step
-
         self.coordinatesChanged.emit(self.square_x, self.square_y)
 
 
@@ -37,6 +36,7 @@ class View(QWidget):
     def __init__(self, model):
         super().__init__()
         self.model = model
+        self.shuffle()
         for index in range(3):
             self.field_cells.append(FieldCell(0))
             self.field_cells.append(FieldCell(1))
@@ -44,6 +44,26 @@ class View(QWidget):
         for index in range(9):
             self.field_cells[index].cell_coordinates = self.cell_coordinates[index]
 
+
+        self.btn_track_clear = QPushButton("Стереть траектории")
+        self.btn_trap_shuffle = QPushButton("Перетасовать ловушки")
+        self.btn_cat_run = QPushButton("Запустить кошку")
+        self.btn_vampus_run = QPushButton("Запустить вампуса")
+        self.btn_ghost_run = QPushButton("Запустить приведение")
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.btn_track_clear)
+        layout.addWidget(self.btn_trap_shuffle)
+        layout.addWidget(self.btn_cat_run)
+        layout.addWidget(self.btn_vampus_run)
+        layout.addWidget(self.btn_ghost_run)
+
+        layout.addStretch()
+        self.setLayout(layout)
+
+
+    def shuffle(self):
+        random.shuffle(self.cell_coordinates)
 
     def paintEvent(self, event):
         painter = QPainter(self)
