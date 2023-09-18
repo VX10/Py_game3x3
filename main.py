@@ -15,6 +15,11 @@ class Model(QObject):
         self.square_x = 100
         self.square_y = 100
 
+
+    def step(self):
+        pass
+
+
     def updateCoordinates(self, direction):
         step = 10
         if direction == 'left':
@@ -171,7 +176,7 @@ class View(QWidget):
 
     def draw_hint(self, painter):
         painter.setPen(QPen(QColor(0, 0, 0), 5))
-        painter.setBrush(QColor(255, 255, 255))
+        painter.setBrush(QColor(255, 255, 220))
         # ромб (веревочка с колокольчиком)
         points = QPolygon([
             QPoint(1 + 50, 300 + 20),  # Вершина A
@@ -224,20 +229,23 @@ class Controller(QObject):
         # таймер тика программы
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_time)
-        self.timer.start(1000)  # Запускаем таймер с интервалом 1000 миллисекунд (1 секунда)
+        # self.time = 0
+        self.timer.start(1000)
 
     def update_time(self):
+        self.model.step()
         pass
 
     def handleKeyPress(self, event):
-        if event.key() == Qt.Key_Left:
-            self.model.updateCoordinates('left')
-        elif event.key() == Qt.Key_Right:
-            self.model.updateCoordinates('right')
-        elif event.key() == Qt.Key_Up:
-            self.model.updateCoordinates('up')
-        elif event.key() == Qt.Key_Down:
-            self.model.updateCoordinates('down')
+        pass
+        # if event.key() == Qt.Key_Left:
+        #     self.model.updateCoordinates('left')
+        # elif event.key() == Qt.Key_Right:
+        #     self.model.updateCoordinates('right')
+        # elif event.key() == Qt.Key_Up:
+        #     self.model.updateCoordinates('up')
+        # elif event.key() == Qt.Key_Down:
+        #     self.model.updateCoordinates('down')
 
 
 class MainWindow(QMainWindow):
@@ -252,10 +260,11 @@ class MainWindow(QMainWindow):
         view = View(model)
         controller = Controller(model)
 
+        self.keyPressEvent = controller.handleKeyPress
         model.coordinatesChanged.connect(view.update)
 
         self.setCentralWidget(view)
-        self.keyPressEvent = controller.handleKeyPress
+        # self.keyPressEvent = controller.handleKeyPress
 
 
 if __name__ == "__main__":
@@ -263,3 +272,24 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
+
+
+
+# Шаблон MVC (Model-View-Controller) разделяет приложение на три основных компонента: Model (Модель), View (Представление) и Controller (Контроллер). Вот как вы можете организовать вашу игру с использованием этого шаблона:
+#
+# Модель (Model):
+#
+# Модель содержит данные и бизнес-логику вашей игры. В данном случае, это может быть описание игрового мира, положение игрока и другие параметры игры.
+# Вы создадите класс Model, в котором будет храниться состояние игры, а также методы для взаимодействия с этим состоянием.
+# Внутри Model будет pyqtSignal, который будет генерироваться при изменении данных игры, чтобы уведомить View о необходимости обновления.
+# Представление (View):
+#
+# Представление отвечает за отображение данных из модели и интерфейс взаимодействия с игрой.
+# Вы создадите класс View, который будет отображать текущее состояние игры (графическое представление) и предоставлять элементы управления для пользователя.
+# View будет подписан на сигналы из Model, чтобы обновлять отображение при изменении состояния игры.
+# Элементы управления (кнопки, поля ввода и т. д.) также будут обрабатываться в View, но действия пользователей будут передаваться в Controller.
+# Контроллер (Controller):
+#
+# Контроллер обрабатывает действия пользователя и взаимодействует с моделью для изменения состояния игры.
+# Вы создадите класс Controller, который будет отслеживать действия пользователя, например, нажатия клавиш, клики мышью и другие события взаимодействия с интерфейсом.
+# Контроллер будет взаимодействовать с Model, вызывая методы Model для обновления состояния игры на основе действий пользователя.
