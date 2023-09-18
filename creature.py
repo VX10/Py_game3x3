@@ -50,7 +50,9 @@ class Creature:
             pass
 
     def draw_creature(self, painter):
-        painter.setPen(Qt.NoPen)
+        # painter.setPen(Qt.NoPen)
+        # painter.setPen(Qt.black)
+        painter.setPen(QPen(QColor(0,0,0), 1))
         # цвет существа
         if self.type_creature == 0:
             painter.setBrush(QColor(0, 255, 0))

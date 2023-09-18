@@ -33,6 +33,9 @@ class View(QWidget):
     cell_coordinates = [[10, 10], [110, 10], [210, 10],
                         [10, 110], [110, 110], [210, 110],
                         [10, 210], [110, 210], [210, 210]]
+    cell_coordinates_point = [[1, 1], [2, 1], [3, 1],
+                              [1, 2], [2, 2], [3, 2],
+                              [1, 3], [2, 3], [3, 3]]
     creatures_list = None
 
     def __init__(self, model):
@@ -69,24 +72,28 @@ class View(QWidget):
         self.btn_tic.move(100, 650)
         self.btn_tic.clicked.connect(self.step)
 
-
     def shuffle_trap(self):
         self.shuffle()
         for index in range(9):
             self.field_cells[index].cell_coordinates = self.cell_coordinates[index]
+            self.field_cells[index].alarm_trap_count = 0
         self.update()
 
     def create_creature_vampus(self):
         self.creatures_list.append(Creature(0))
+        self.trap_control()
         self.update()
         pass
 
     def create_creature_cat(self):
         self.creatures_list.append(Creature(1))
+        self.trap_control()
         self.update()
+
 
     def create_creature_ghost(self):
         self.creatures_list.append(Creature(2))
+        self.trap_control()
         self.update()
 
     def shuffle(self):
@@ -105,12 +112,60 @@ class View(QWidget):
     def step(self):
         for item in self.creatures_list:
             item.step()
+        self.trap_control()
         self.update()
 
+    def trap_control(self):
+        for item_creature in self.creatures_list:
+            for item_cell in self.field_cells:
+                coord_cell = self.cell_coordinates_translate(item_cell.cell_coordinates)
+                coord_creature = [item_creature.coordinate_x, item_creature.coordinate_y]
+                # type_creature
+                # 0 - Вампус
+                # 1 - Кошка
+                # 2 - Приведение
+
+                # cell_type
+                # 0 - empty cell           / пустая ячейка
+                # 1 - rope with a bell     / веревочка с колокольчиком
+                # 2 - protoplasm detector  / детектор протоплазмы
+
+                # •	Веревочка с колокольчиком. Активируется вампусом и на 50% - кошкой (то есть кошка должна пройти 2 раза, чтобы ловушка сработала).
+                # •	Детектор протоплазмы. Активируется приведением и 50% - кошкой.
+                if coord_cell == coord_creature:
+                    # веревочка с колокольчиком
+                    if item_cell.cell_type == 1:
+                        # Вампус
+                        if item_creature.type_creature == 0: item_cell.alarm_trap_count += 100
+                        # Кошка
+                        if item_creature.type_creature == 1: item_cell.alarm_trap_count += 50
+                    # детектор протоплазмы
+                    if item_cell.cell_type == 2:
+                        # Приведение
+                        if item_creature.type_creature == 2: item_cell.alarm_trap_count += 100
+                        # Кошка
+                        if item_creature.type_creature == 1: item_cell.alarm_trap_count += 50
     def clear_track(self):
         for item in self.creatures_list:
             item.path_list = []
         self.update()
+
+    def cell_coordinates_translate(self, cell_coordinate):
+        coordinate_out = None
+        if cell_coordinate == [10, 10]: coordinate_out = [1, 1]
+        if cell_coordinate == [110, 10]: coordinate_out = [2, 1]
+        if cell_coordinate == [210, 10]: coordinate_out = [3, 1]
+
+        if cell_coordinate == [10, 110]: coordinate_out = [1, 2]
+        if cell_coordinate == [110, 110]: coordinate_out = [2, 2]
+        if cell_coordinate == [210, 110]: coordinate_out = [3, 2]
+
+        if cell_coordinate == [10, 210]: coordinate_out = [1, 3]
+        if cell_coordinate == [110, 210]: coordinate_out = [2, 3]
+        if cell_coordinate == [210, 210]: coordinate_out = [3, 3]
+        return coordinate_out
+
+
 
 class Controller(QObject):
     def __init__(self, model):
