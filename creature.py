@@ -1,7 +1,7 @@
 import random
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor, QPen
+from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtGui import QColor, QPen, QPolygon
 
 
 class Creature:
@@ -50,8 +50,6 @@ class Creature:
             pass
 
     def draw_creature(self, painter):
-        # painter.setPen(Qt.NoPen)
-        # painter.setPen(Qt.black)
         painter.setPen(QPen(QColor(0,0,0), 1))
         # цвет существа
         if self.type_creature == 0:

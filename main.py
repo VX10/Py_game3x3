@@ -51,6 +51,7 @@ class Model(QObject):
         self.creatures_list.append(Creature(1))
         self.trap_control()
         # self.update()
+        pass
 
     def create_creature_ghost(self):
         self.creatures_list.append(Creature(2))
@@ -69,70 +70,76 @@ class Model(QObject):
     #     self.trap_control()
     #     self.update()
     #
-    # def trap_control(self):
-    #     for item_creature in self.creatures_list:
-    #         for item_cell in self.field_cells:
-    #             coord_cell = self.cell_coordinates_translate(item_cell.cell_coordinates)
-    #             coord_creature = [item_creature.coordinate_x, item_creature.coordinate_y]
-    #             # type_creature
-    #             # 0 - Вампус
-    #             # 1 - Кошка
-    #             # 2 - Приведение
-    #
-    #             # cell_type
-    #             # 0 - empty cell           / пустая ячейка
-    #             # 1 - rope with a bell     / веревочка с колокольчиком
-    #             # 2 - protoplasm detector  / детектор протоплазмы
-    #
-    #             # •	Веревочка с колокольчиком. Активируется вампусом и на 50% - кошкой (то есть кошка должна пройти 2 раза, чтобы ловушка сработала).
-    #             # •	Детектор протоплазмы. Активируется приведением и 50% - кошкой.
-    #             if coord_cell == coord_creature:
-    #                 # веревочка с колокольчиком
-    #                 if item_cell.cell_type == 1:
-    #                     # Вампус
-    #                     if item_creature.type_creature == 0: item_cell.alarm_trap_count += 100
-    #                     # Кошка
-    #                     if item_creature.type_creature == 1: item_cell.alarm_trap_count += 50
-    #                 # детектор протоплазмы
-    #                 if item_cell.cell_type == 2:
-    #                     # Приведение
-    #                     if item_creature.type_creature == 2: item_cell.alarm_trap_count += 100
-    #                     # Кошка
-    #                     if item_creature.type_creature == 1: item_cell.alarm_trap_count += 50
+    def trap_control(self):
+        for item_creature in self.creatures_list:
+            for item_cell in self.field_cells:
+                coord_cell = self.cell_coordinates_translate(item_cell.cell_coordinates)
+                coord_creature = [item_creature.coordinate_x, item_creature.coordinate_y]
+                # type_creature
+                # 0 - Вампус
+                # 1 - Кошка
+                # 2 - Приведение
+
+                # cell_type
+                # 0 - empty cell           / пустая ячейка
+                # 1 - rope with a bell     / веревочка с колокольчиком
+                # 2 - protoplasm detector  / детектор протоплазмы
+
+                # •	Веревочка с колокольчиком. Активируется вампусом и на 50% - кошкой (то есть кошка должна пройти 2 раза, чтобы ловушка сработала).
+                # •	Детектор протоплазмы. Активируется приведением и 50% - кошкой.
+                if coord_cell == coord_creature:
+                    # веревочка с колокольчиком
+                    if item_cell.cell_type == 1:
+                        # Вампус
+                        if item_creature.type_creature == 0: item_cell.alarm_trap_count += 100
+                        # Кошка
+                        if item_creature.type_creature == 1: item_cell.alarm_trap_count += 50
+                    # детектор протоплазмы
+                    if item_cell.cell_type == 2:
+                        # Приведение
+                        if item_creature.type_creature == 2: item_cell.alarm_trap_count += 100
+                        # Кошка
+                        if item_creature.type_creature == 1: item_cell.alarm_trap_count += 50
 
     def clear_track(self):
         for item in self.creatures_list:
             item.path_list = []
         # self.update()
 
+    # def show(self, painter):
+    #     for item in self.creatures_list:
+    #         item.draw_track(painter)
+    #     for item in self.creatures_list:
+    #         item.draw_creature(painter)
 
-    #
-    # def cell_coordinates_translate(self, cell_coordinate):
-    #     coordinate_out = None
-    #     if cell_coordinate == [10, 10]: coordinate_out = [1, 1]
-    #     if cell_coordinate == [110, 10]: coordinate_out = [2, 1]
-    #     if cell_coordinate == [210, 10]: coordinate_out = [3, 1]
-    #
-    #     if cell_coordinate == [10, 110]: coordinate_out = [1, 2]
-    #     if cell_coordinate == [110, 110]: coordinate_out = [2, 2]
-    #     if cell_coordinate == [210, 110]: coordinate_out = [3, 2]
-    #
-    #     if cell_coordinate == [10, 210]: coordinate_out = [1, 3]
-    #     if cell_coordinate == [110, 210]: coordinate_out = [2, 3]
-    #     if cell_coordinate == [210, 210]: coordinate_out = [3, 3]
-    #     return coordinate_out
-    #
-    # def updateCoordinates(self, direction):
-    #     step = 10
-    #     if direction == 'left':
-    #         self.square_x -= step
-    #     elif direction == 'right':
-    #         self.square_x += step
-    #     elif direction == 'up':
-    #         self.square_y -= step
-    #     elif direction == 'down':
-    #         self.square_y += step
-    #     self.coordinatesChanged.emit(self.square_x, self.square_y)
+
+
+    def cell_coordinates_translate(self, cell_coordinate):
+        coordinate_out = None
+        if cell_coordinate == [10, 10]: coordinate_out = [1, 1]
+        if cell_coordinate == [110, 10]: coordinate_out = [2, 1]
+        if cell_coordinate == [210, 10]: coordinate_out = [3, 1]
+
+        if cell_coordinate == [10, 110]: coordinate_out = [1, 2]
+        if cell_coordinate == [110, 110]: coordinate_out = [2, 2]
+        if cell_coordinate == [210, 110]: coordinate_out = [3, 2]
+
+        if cell_coordinate == [10, 210]: coordinate_out = [1, 3]
+        if cell_coordinate == [110, 210]: coordinate_out = [2, 3]
+        if cell_coordinate == [210, 210]: coordinate_out = [3, 3]
+        return coordinate_out
+
+    def updateCoordinates(self, direction):
+        step = 10
+        if direction == 'left':
+            self.square_x -= step
+        elif direction == 'right':
+            self.square_x += step
+        elif direction == 'up':
+            self.square_y -= step
+        elif direction == 'down':
+            self.square_y += step
+        self.coordinatesChanged.emit(self.square_x, self.square_y)
 
 
 class View(QWidget):
@@ -218,11 +225,14 @@ class View(QWidget):
 
         for count in range(9):
             self.model.field_cells[count].draw_rect(painter)
-        # for item in self.creatures_list:
-        #     item.draw_track(painter)
-        # for item in self.creatures_list:
-        #     item.draw_creature(painter)
+
+        for item in self.model.creatures_list:
+            item.draw_track(painter)
+
+        for item in self.model.creatures_list:
+            item.draw_creature(painter)
         self.draw_hint(painter)
+        self.update()
         pass
 
 
