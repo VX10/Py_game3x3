@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
-from PyQt5.QtGui import QPainter, QPolygon, QBrush, QColor, QPen
-from PyQt5.QtCore import Qt, QObject, pyqtSignal, QPoint
+from PyQt5.QtGui import QPolygon, QColor, QPen
+from PyQt5.QtCore import Qt, QPoint
 
 
 class FieldCell():
@@ -26,6 +25,9 @@ class FieldCell():
         self.alarm_trap_count = 0
 
     def draw_rect(self, painter):
+        '''
+        Метод рисования элемента-квадрата поля с ловушками на холсте "painter"
+        '''
         size = 100
         # смена цвета при срабатывании ловушки
         if self.alarm_trap_count == 0:
@@ -48,7 +50,6 @@ class FieldCell():
                 QPoint(self.cell_coordinates[0] + 10, self.cell_coordinates[1] + 50)  # Вершина D
             ])
             painter.setPen(QPen(Qt.black, 5))
-            # painter.setBrush(QColor(255, 0, 0))
             painter.drawPolygon(points)
 
         # звезда (детектор протоплазмы)
@@ -64,8 +65,6 @@ class FieldCell():
                 QPoint(self.cell_coordinates[0] + 40, self.cell_coordinates[1] + 40)
             ])
             painter.setPen(QPen(Qt.black, 5))
-            # painter.setBrush(QColor(255, 0, 0))
             painter.drawPolygon(points)
         painter.setPen(Qt.NoPen)
         painter.setBrush(QColor(0, 255, 0))
-        # painter.drawEllipse(50, 50, 200, 200)

@@ -1,12 +1,11 @@
 import random
-
-from PyQt5.QtCore import Qt, QPoint
-from PyQt5.QtGui import QColor, QPen, QPolygon
+from PyQt5.QtGui import QColor, QPen
 
 
 class Creature:
     '''
-    Класс существ (type_creature):
+    Класс существ
+    (type_creature):
     0 - Вампус
     1 - Кошка
     2 - Приведение
@@ -25,6 +24,9 @@ class Creature:
         self.out_range = False
 
     def step(self):
+        '''
+        Метод шага существа в случайном направлении
+        '''
         if not self.out_range:
             # случайное направление движения существа
             # 1 - up
@@ -50,7 +52,10 @@ class Creature:
             pass
 
     def draw_creature(self, painter):
-        painter.setPen(QPen(QColor(0,0,0), 1))
+        '''
+        Метод рисования существа как цветной кружок на холсте "painter"
+        '''
+        painter.setPen(QPen(QColor(0, 0, 0), 1))
         # цвет существа
         if self.type_creature == 0:
             painter.setBrush(QColor(0, 255, 0))
@@ -87,9 +92,12 @@ class Creature:
             painter.drawEllipse(260 - 20, 260 - 20, 40, 40)
 
     def draw_track(self, painter):
+        '''
+        Метод рисования трека существа как цветную линию на холсте "painter"
+        '''
         if len(self.path_list) < 2:
             return
-        for i in range(len(self.path_list)-1):
+        for i in range(len(self.path_list) - 1):
             if self.path_list[i][0] == 0: x1 = 10
             if self.path_list[i][0] == 1: x1 = 60
             if self.path_list[i][0] == 2: x1 = 160
@@ -102,17 +110,17 @@ class Creature:
             if self.path_list[i][1] == 3: y1 = 260
             if self.path_list[i][1] == 4: y1 = 310
 
-            if self.path_list[i+1][0] == 0: x2 = 10
-            if self.path_list[i+1][0] == 1: x2 = 60
-            if self.path_list[i+1][0] == 2: x2 = 160
-            if self.path_list[i+1][0] == 3: x2 = 260
-            if self.path_list[i+1][0] == 4: x2 = 310
+            if self.path_list[i + 1][0] == 0: x2 = 10
+            if self.path_list[i + 1][0] == 1: x2 = 60
+            if self.path_list[i + 1][0] == 2: x2 = 160
+            if self.path_list[i + 1][0] == 3: x2 = 260
+            if self.path_list[i + 1][0] == 4: x2 = 310
 
-            if self.path_list[i+1][1] == 0: y2 = 10
-            if self.path_list[i+1][1] == 1: y2 = 60
-            if self.path_list[i+1][1] == 2: y2 = 160
-            if self.path_list[i+1][1] == 3: y2 = 260
-            if self.path_list[i+1][1] == 4: y2 = 310
+            if self.path_list[i + 1][1] == 0: y2 = 10
+            if self.path_list[i + 1][1] == 1: y2 = 60
+            if self.path_list[i + 1][1] == 2: y2 = 160
+            if self.path_list[i + 1][1] == 3: y2 = 260
+            if self.path_list[i + 1][1] == 4: y2 = 310
 
             # цвет трека
             if self.type_creature == 0:
