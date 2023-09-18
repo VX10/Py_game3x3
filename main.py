@@ -2,9 +2,9 @@ import random
 import sys
 from field_cell import FieldCell
 from creature import Creature
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout
-from PyQt5.QtGui import QPainter, QPen, QBrush, QColor
-from PyQt5.QtCore import Qt, QObject, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel
+from PyQt5.QtGui import QPainter, QPen, QBrush, QColor, QPolygon, QFont
+from PyQt5.QtCore import Qt, QObject, pyqtSignal, QPoint, QTimer
 
 
 class Model(QObject):
@@ -48,28 +48,46 @@ class View(QWidget):
             self.field_cells.append(FieldCell(2))
         self.shuffle_trap()
 
+        self.label = QLabel("Веревочка с колокольчиком", self)
+        self.label.move(110, 340)
+        font = QFont()
+        font.setPointSize(10)
+        self.label.setFont(font)
+
+        self.label = QLabel("Детектор протоплазмы", self)
+        self.label.move(110, 416)
+        font = QFont()
+        font.setPointSize(10)
+        self.label.setFont(font)
+
         self.btn_track_clear = QPushButton("Стереть траектории", self)
-        self.btn_track_clear.move(100, 350)
+        self.btn_track_clear.setFixedWidth(300)
+        self.btn_track_clear.move(10, 470)
         self.btn_track_clear.clicked.connect(self.clear_track)
 
         self.btn_trap_shuffle = QPushButton("Перетасовать ловушки", self)
-        self.btn_trap_shuffle.move(100, 400)
+        self.btn_trap_shuffle.setFixedWidth(300)
+        self.btn_trap_shuffle.move(10, 500)
         self.btn_trap_shuffle.clicked.connect(self.shuffle_trap)
 
-        self.btn_vampus_run = QPushButton("Запустить вампуса", self)
-        self.btn_vampus_run.move(100, 550)
-        self.btn_vampus_run.clicked.connect(self.create_creature_vampus)
 
         self.btn_cat_run = QPushButton("Запустить кошку", self)
-        self.btn_cat_run.move(100, 500)
+        self.btn_cat_run.setFixedWidth(300)
+        self.btn_cat_run.move(10, 540)
         self.btn_cat_run.clicked.connect(self.create_creature_cat)
 
+        self.btn_vampus_run = QPushButton("Запустить вампуса", self)
+        self.btn_vampus_run.setFixedWidth(300)
+        self.btn_vampus_run.move(10, 570)
+        self.btn_vampus_run.clicked.connect(self.create_creature_vampus)
+
         self.btn_ghost_run = QPushButton("Запустить приведение", self)
-        self.btn_ghost_run.move(100, 600)
+        self.btn_ghost_run.setFixedWidth(300)
+        self.btn_ghost_run.move(10, 600)
         self.btn_ghost_run.clicked.connect(self.create_creature_ghost)
 
         self.btn_tic = QPushButton("Шаг", self)
-        self.btn_tic.move(100, 650)
+        self.btn_tic.move(10, 650)
         self.btn_tic.clicked.connect(self.step)
 
     def shuffle_trap(self):
@@ -107,6 +125,7 @@ class View(QWidget):
             item.draw_track(painter)
         for item in self.creatures_list:
             item.draw_creature(painter)
+        self.draw_hint(painter)
         pass
 
     def step(self):
@@ -150,6 +169,36 @@ class View(QWidget):
             item.path_list = []
         self.update()
 
+    def draw_hint(self, painter):
+        painter.setPen(QPen(QColor(0, 0, 0), 5))
+        painter.setBrush(QColor(255, 255, 255))
+        # ромб (веревочка с колокольчиком)
+        points = QPolygon([
+            QPoint(1 + 50, 300 + 20),  # Вершина A
+            QPoint(1 + 90, 300 + 50),  # Вершина B
+            QPoint(1 + 50, 300 + 80),  # Вершина C
+            QPoint(1 + 10, 300 + 50)  # Вершина D
+        ])
+        painter.setPen(QPen(Qt.black, 5))
+        # painter.setBrush(QColor(255, 0, 0))
+        painter.drawPolygon(points)
+
+        # звезда (детектор протоплазмы)
+        points = QPolygon([
+            QPoint(1 + 50, 375 + 10),
+            QPoint(1 + 60, 375 + 40),
+            QPoint(1 + 90, 375 + 50),
+            QPoint(1 + 60, 375 + 60),
+            QPoint(1 + 50, 375 + 90),
+            QPoint(1 + 40, 375 + 60),
+            QPoint(1 + 10, 375 + 50),
+            QPoint(1 + 40, 375 + 40)
+        ])
+        painter.setPen(QPen(Qt.black, 5))
+        # painter.setBrush(QColor(255, 0, 0))
+        painter.drawPolygon(points)
+        pass
+
     def cell_coordinates_translate(self, cell_coordinate):
         coordinate_out = None
         if cell_coordinate == [10, 10]: coordinate_out = [1, 1]
@@ -171,6 +220,14 @@ class Controller(QObject):
     def __init__(self, model):
         super().__init__()
         self.model = model
+
+        # таймер тика программы
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_time)
+        self.timer.start(1000)  # Запускаем таймер с интервалом 1000 миллисекунд (1 секунда)
+
+    def update_time(self):
+        pass
 
     def handleKeyPress(self, event):
         if event.key() == Qt.Key_Left:

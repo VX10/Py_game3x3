@@ -27,11 +27,13 @@ class FieldCell():
 
     def draw_rect(self, painter):
         size = 100
-        # смена цвета при срабатывании ловушки на 100
+        # смена цвета при срабатывании ловушки
+        if self.alarm_trap_count == 0:
+            self.fill_color = QColor(255, 255, 255)
+        if self.alarm_trap_count == 50:
+            self.fill_color = QColor(255, 255, 220)
         if self.alarm_trap_count >= 100:
             self.fill_color = QColor(255, 0, 0)
-        else:
-            self.fill_color = QColor(255, 255, 255)
 
         painter.setPen(QPen(QColor(0, 0, 0), 5))
         painter.setBrush(self.fill_color)
